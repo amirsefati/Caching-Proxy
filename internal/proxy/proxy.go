@@ -20,3 +20,10 @@ func NewProxy(origin string) *ProxyObject {
 		Cache:  make(map[string]*cache.CacheObject),
 	}
 }
+
+func (p *ProxyObject) ClearCache() {
+	p.Mutex.Lock()
+	p.Cache = make(map[string]*cache.CacheObject)
+	p.Mutex.Unlock()
+	fmt.Println("Cache Cleared Successfully")
+}
