@@ -27,3 +27,13 @@ func (p *ProxyObject) ClearCache() {
 	p.Mutex.Unlock()
 	fmt.Println("Cache Cleared Successfully")
 }
+
+func RespondWithHeaders(w http.ResponseWriter, response http.Response, body []byte, cacheHeader, KEY string) {
+	fmt.Printf("Cache : %s %s \n", cacheHeader, KEY)
+	w.Header().Set("X-Cache", cacheHeader)
+	w.WriteHeader(response.StatusCode)
+	for k, v := range response.Header {
+		w.Header()[k] = v
+	}
+	w.Write(body)
+}
